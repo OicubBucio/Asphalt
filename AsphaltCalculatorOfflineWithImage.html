@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asphalt Calculator</title>
+    <style>
+        body {
+            padding: 2rem;
+            font-family: Arial, sans-serif;
+            background: url('https://source.unsplash.com/1600x900/?highway') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .form-group input {
+            padding: 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        .result-label {
+            margin-top: 1rem;
+            font-size: 1.25rem;
+        }
+        .result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .result.show {
+            opacity: 1;
+        }
+        .calculator-card {
+            padding: 2rem;
+            border: 1px solid #007bff;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .calculator-card:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        }
+        button {
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+        button.primary {
+            background: #007bff;
+        }
+        button.primary:hover {
+            background: #0056b3;
+        }
+        button.secondary {
+            background: #6c757d;
+        }
+        button.secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-card">
+        <h1 class="text-center">Asphalt Calculator</h1>
+        <div class="form-group">
+            <label for="length">Length (in meters)</label>
+            <input type="number" id="length" min="0">
+        </div>
+        <div class="form-group">
+            <label for="width">Width (in meters)</label>
+            <input type="number" id="width" min="0">
+        </div>
+        <div class="form-group">
+            <label for="depth">Depth (in mm)</label>
+            <input type="number" id="depth" min="0">
+        </div>
+        <button class="primary" onclick="calculate()">Calculate</button>
+        <button class="secondary" onclick="resetCalculator()">Reset</button>
+        <label class="result-label">Area (in square meters)</label>
+        <p id="area" class="result"></p>
+        <label class="result-label">Asphalt Weight (in tons)</label>
+        <p id="weight" class="result"></p>
+    </div>
+    <script>
+        function calculate() {
+            var length = document.getElementById("length").value;
+            var width = document.getElementById("width").value;
+            var depth = document.getElementById("depth").value;
+            // Validate inputs
+            if (length <= 0 || width <= 0 || depth <= 0) {
+                alert("Please enter positive values for all fields.");
+                return;
+            }
+            // Convert depth from mm to m
+            depth = depth / 1000;
+            // Calculate and display area
+            var area = length * width;
+            document.getElementById("area").textContent = area.toFixed(2);
+            // Show the area result
+            document.getElementById("area").classList.add("show");
+            // Calculate and display weight (assuming density of asphalt is 2.4 tons/m^3)
+            var weight = area * depth * 2.4;
+            document.getElementById("weight").textContent = weight.toFixed(2);
+            // Show the weight result
+            document.getElementById("weight").classList.add("show");
+        }
+        function resetCalculator() {
+            document.getElementById("length").value = "";
+            document.getElementById("width").value = "";
+            document.getElementById("depth").value = "";
+            document.getElementById("area").textContent = "";
+            document.getElementById("weight").textContent = "";
+            // Hide the results
+            document.getElementById("area").classList.remove("show");
+            document.getElementById("weight").classList.remove("show");
+        }
+    </script>
+</body>
+</html>
